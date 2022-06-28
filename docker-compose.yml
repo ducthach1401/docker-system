@@ -5,7 +5,7 @@ services:
     image: portainer/portainer-ce:2.14.0-alpine
     restart: on-failure
     ports:
-      - "${PORTAINER_PORT}:9443"
+      - "${PORTAINER_PORT}:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
@@ -61,8 +61,16 @@ services:
       - ME_CONFIG_BASICAUTH_USERNAME
       - ME_CONFIG_BASICAUTH_PASSWORD
       - ME_CONFIG_MONGODB_URL
+  prometheus:
+    image: prom/prometheus:v2.36.2
+    restart: always
+    ports:
+      - "${PROMETHEUS_PORT}:9090"
+    volumes:
+      - prometheus:/etc/prometheus
 volumes:
   portainer_data:
   nextcloud:
   postgres:
   mongodb:
+  prometheus:
