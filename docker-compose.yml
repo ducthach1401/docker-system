@@ -61,16 +61,15 @@ services:
       - ME_CONFIG_BASICAUTH_USERNAME
       - ME_CONFIG_BASICAUTH_PASSWORD
       - ME_CONFIG_MONGODB_URL
-  prometheus:
-    image: prom/prometheus:v2.36.2
-    restart: always
-    ports:
-      - "${PROMETHEUS_PORT}:9090"
+  adguardhome:
+    image: adguard/adguardhome:latest
+    restart: unless-stopped
     volumes:
-      - prometheus:/etc/prometheus
+      - adguardhome:/opt/adguardhome/
+    network_mode: "host"
 volumes:
   portainer_data:
   nextcloud:
   postgres:
   mongodb:
-  prometheus:
+  adguardhome:
