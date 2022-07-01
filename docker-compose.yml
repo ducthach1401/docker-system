@@ -61,12 +61,26 @@ services:
       - ME_CONFIG_BASICAUTH_USERNAME
       - ME_CONFIG_BASICAUTH_PASSWORD
       - ME_CONFIG_MONGODB_URL
+
   adguardhome:
     image: adguard/adguardhome:latest
     restart: unless-stopped
+    ports:
+      - ${ADGUARDHOME_PORT_1}:3000
+      - ${ADGUARDHOME_PORT_2}:53/udp
+      - ${ADGUARDHOME_PORT_2}:53/tcp
     volumes:
       - adguardhome:/opt/adguardhome/
-    network_mode: "host"
+
+  # nginx:
+  #   image: nginx:1.20-alpine
+  #   restart: always
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+  #   volumes:
+  #     - ./images/nginx/conf/:/etc/nginx/conf.d/
+
 volumes:
   portainer_data:
   nextcloud:
