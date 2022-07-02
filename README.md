@@ -1,3 +1,7 @@
 # Docker system run on Armbian
 
-openssl req -x509 -newkey rsa:2048 -nodes -days 3650 -out server.csr -keyout server.key -subj "/C=VN/ST=sads/L=HCM/O=asdas/OU=sadsd/CN=bighandsolutions.ddns.net"
+sudo certbot certonly --manual --preferred-challenges dns -d www.bighand.space
+
+cp -r /etc/letsencrypt/live/www.bighand.space/* .
+
+certbot renew
