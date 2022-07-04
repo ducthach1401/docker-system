@@ -80,6 +80,15 @@ services:
       - /etc/letsencrypt/:/etc/nginx/certs/
     network_mode: host
 
+  auto-update:
+    image: python:3.7-alpine
+    restart: always
+    command: sh -c "pip install requests && python3 cfautoupdater.py"
+    working_dir: /var/www/cloudflare-ip/
+    volumes:
+      - ./images/cloudflare-ip/:/var/www/cloudflare-ip/
+    network_mode: host
+
 volumes:
   portainer_data:
   nextcloud:
