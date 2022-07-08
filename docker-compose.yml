@@ -89,6 +89,12 @@ services:
       - ./images/cloudflare-ip/:/var/www/cloudflare-ip/
     network_mode: host
 
+  speedtest:
+    image: openspeedtest/latest:speedtest
+    restart: always
+    ports:
+      - "${SPEEDTEST_PORT}:3000"
+
 volumes:
   portainer_data:
   nextcloud:

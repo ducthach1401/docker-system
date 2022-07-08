@@ -5,4 +5,4 @@ sudo certbot certonly --manual --preferred-challenges dns -d www.bighand.space
 certbot renew
 
 'overwriteprotocol' => 'https',
-'overwritehost' => 'www.bighand.space',
+'overwritehost' => 'bighand.asia',
