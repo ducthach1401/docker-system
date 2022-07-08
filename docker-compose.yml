@@ -27,6 +27,8 @@ services:
   postgres:
     image: postgres:12-alpine
     restart: on-failure
+    ports:
+      - ${POSTGRES_PORT}:5432
     volumes:
       - ./images/postgres/multiple-databases:/docker-entrypoint-initdb.d
       - postgres:/var/lib/postgresql/data
@@ -40,6 +42,8 @@ services:
     restart: on-failure
     volumes:
       - mongodb:/data/db
+    ports:
+      - ${MONGODB_PORT}:27017
     environment:
       - MONGO_INITDB_ROOT_USERNAME
       - MONGO_INITDB_ROOT_PASSWORD
@@ -71,8 +75,6 @@ services:
       - ${ADGUARDHOME_PORT_1}:8081
       - ${SPEEDTEST_PORT}:8082
       - ${MONGODB_UI_PORT}:8083
-      - ${POSTGRES_PORT}:20000
-      - ${MONGODB_PORT}:20001
     volumes:
       - ./images/nginx/conf/:/etc/nginx/conf.d/
       - /etc/letsencrypt/:/etc/nginx/certs/
