@@ -4,8 +4,6 @@ services:
   portainer:
     image: portainer/portainer-ce:2.14.0-alpine
     restart: on-failure
-    ports:
-      - "${PORTAINER_PORT}:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
@@ -13,8 +11,6 @@ services:
   nextcloud:
     image: nextcloud:24.0.2-apache
     restart: on-failure
-    ports:
-      - ${HTTP_PORT}:80
     links:
       - postgres
     volumes:
@@ -31,8 +27,6 @@ services:
   postgres:
     image: postgres:12-alpine
     restart: on-failure
-    ports:
-      - "${POSTGRES_PORT}:5432"
     volumes:
       - ./images/postgres/multiple-databases:/docker-entrypoint-initdb.d
       - postgres:/var/lib/postgresql/data
@@ -44,8 +38,6 @@ services:
   mongodb:
     image: mongo:4.2
     restart: on-failure
-    ports:
-      - "${MONGODB_PORT}:27017"
     volumes:
       - mongodb:/data/db
     environment:
@@ -55,8 +47,6 @@ services:
   mongo-express:
     image: mongo-express:1.0.0-alpha
     restart: always
-    ports:
-      - ${MONGODB_UI_PORT}:8081
     environment:
       - ME_CONFIG_BASICAUTH_USERNAME
       - ME_CONFIG_BASICAUTH_PASSWORD
@@ -66,7 +56,6 @@ services:
     image: adguard/adguardhome:latest
     restart: unless-stopped
     ports:
-      - ${ADGUARDHOME_PORT_1}:3000
       - ${ADGUARDHOME_PORT_2}:53/udp
       - ${ADGUARDHOME_PORT_2}:53/tcp
     volumes:
@@ -75,10 +64,18 @@ services:
   nginx:
     image: nginx:1.20-alpine
     restart: always
+    ports:
+      - ${NEXTCLOUD_PORT_1}:80
+      - ${NEXTCLOUD_PORT_2}:443
+      - ${PORTAINER_PORT}:8080
+      - ${ADGUARDHOME_PORT_1}:8081
+      - ${SPEEDTEST_PORT}:8082
+      - ${MONGODB_UI_PORT}:8083
+      - ${POSTGRES_PORT}:20000
+      - ${MONGODB_PORT}:20001
     volumes:
       - ./images/nginx/conf/:/etc/nginx/conf.d/
       - /etc/letsencrypt/:/etc/nginx/certs/
-    network_mode: host
 
   auto-update:
     image: python:3.7-alpine
@@ -92,8 +89,6 @@ services:
   speedtest:
     image: openspeedtest/latest:speedtest
     restart: always
-    ports:
-      - "${SPEEDTEST_PORT}:3000"
 
 volumes:
   portainer_data:
