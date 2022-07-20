@@ -23,6 +23,8 @@ services:
       - NEXTCLOUD_ADMIN_USER
       - NEXTCLOUD_ADMIN_PASSWORD
       - NEXTCLOUD_TRUSTED_DOMAINS
+      - PHP_MEMORY_LIMIT
+      - PHP_UPLOAD_LIMIT
 
   postgres:
     image: postgres:12-alpine
