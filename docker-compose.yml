@@ -25,12 +25,14 @@ services:
       - NEXTCLOUD_TRUSTED_DOMAINS
       - PHP_MEMORY_LIMIT
       - PHP_UPLOAD_LIMIT
+      - OVERWRITEPROTOCOL
+      - OVERWRITEHOST
 
   postgres:
     image: postgres:12-alpine
     restart: on-failure
-    ports:
-      - ${POSTGRES_PORT}:5432
+    # ports:
+    #   - ${POSTGRES_PORT}:5432
     volumes:
       - ./images/postgres/multiple-databases:/docker-entrypoint-initdb.d
       - postgres:/var/lib/postgresql/data
