@@ -11,8 +11,6 @@ services:
   nextcloud:
     image: nextcloud:24.0.2-apache
     restart: on-failure
-    ports:
-      - ${NEXTCLOUD_PORT_LOCAL}:80
     links:
       - postgres
     volumes:
@@ -27,6 +25,7 @@ services:
       - NEXTCLOUD_TRUSTED_DOMAINS
       - PHP_MEMORY_LIMIT
       - PHP_UPLOAD_LIMIT
+      - OVERWRITEPROTOCOL
 
   postgres:
     image: postgres:12-alpine
