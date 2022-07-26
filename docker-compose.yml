@@ -84,7 +84,7 @@ services:
 
   auto-update:
     image: python:3.7-alpine
-    restart: always
+    restart: on-failure
     command: sh -c "pip install requests && python3 cfautoupdater.py"
     working_dir: /var/www/cloudflare-ip/
     volumes:
