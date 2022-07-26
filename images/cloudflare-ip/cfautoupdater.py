@@ -40,8 +40,8 @@ while True:
             ipcheck_status = currentip.status_code
 
         currentactualip = currentip.text.strip()
-        logging.info('ip server: {currentactualip}')
-        logging.info('ip cloudflare: {current_set_ip}')
+        logging.info(f"ip server: {currentactualip}")
+        logging.info(f"ip cloudflare: {current_set_ip}")
     else: 
         pass
 
