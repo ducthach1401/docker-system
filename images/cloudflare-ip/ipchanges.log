@@ -1,0 +1,2 @@
+INFO :: ip server: {currentactualip}
+INFO :: ip cloudflare: {current_set_ip}
