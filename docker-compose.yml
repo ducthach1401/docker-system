@@ -1,18 +1,11 @@
 version: "3.8"
 
 services:
-  portainer:
-    image: portainer/portainer-ce:2.14.0-alpine
-    restart: on-failure
-    ports:
-      - ${PORTAINER_PORT}:9000
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
-
   nextcloud:
     image: nextcloud:24.0.2-apache
     restart: on-failure
+    ports:
+      - ${NEXTCLOUD_PORT}:80
     links:
       - postgres
     volumes:
@@ -40,26 +33,6 @@ services:
       - POSTGRES_PASSWORD
       - POSTGRES_MULTIPLE_DATABASES
 
-  adguardhome:
-    image: adguard/adguardhome:latest
-    restart: unless-stopped
-    ports:
-      - ${ADGUARDHOME_PORT_1}:3000
-      - ${ADGUARDHOME_PORT_2}:53/udp
-      - ${ADGUARDHOME_PORT_2}:53/tcp
-    volumes:
-      - adguardhome:/opt/adguardhome/
-
-  nginx:
-    image: nginx:1.20-alpine
-    restart: always
-    ports:
-      - ${NEXTCLOUD_PORT_1}:80
-      - ${NEXTCLOUD_PORT_2}:443
-    volumes:
-      - ./images/nginx/conf/:/etc/nginx/conf.d/
-      - /etc/letsencrypt/:/etc/nginx/certs/
-
   auto-update:
     image: python:3.7-alpine
     restart: on-failure
@@ -69,14 +42,6 @@ services:
       - ./images/cloudflare-ip/:/var/www/cloudflare-ip/
     network_mode: host
 
-  speedtest:
-    image: openspeedtest/latest:speedtest
-    restart: always
-    ports:
-      - ${SPEEDTEST_PORT}:3000
-
 volumes:
-  portainer_data:
   nextcloud:
   postgres:
-  adguardhome:
