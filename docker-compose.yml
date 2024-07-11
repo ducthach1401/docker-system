@@ -1,38 +1,6 @@
 version: "3.8"
 
 services:
-  nextcloud:
-    image: nextcloud:24.0.2-apache
-    restart: on-failure
-    ports:
-      - ${NEXTCLOUD_PORT}:80
-    links:
-      - postgres
-    volumes:
-      - nextcloud:/var/www/html
-    environment:
-      - POSTGRES_DB=nextcloud
-      - POSTGRES_HOST=postgres:5432
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - NEXTCLOUD_ADMIN_USER
-      - NEXTCLOUD_ADMIN_PASSWORD
-      - NEXTCLOUD_TRUSTED_DOMAINS
-      - PHP_MEMORY_LIMIT
-      - PHP_UPLOAD_LIMIT
-      - OVERWRITEPROTOCOL
-
-  postgres:
-    image: postgres:12-alpine
-    restart: on-failure
-    volumes:
-      - ./images/postgres/multiple-databases:/docker-entrypoint-initdb.d
-      - postgres:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - POSTGRES_MULTIPLE_DATABASES
-
   auto-update:
     image: python:3.7-alpine
     restart: on-failure
@@ -41,7 +9,3 @@ services:
     volumes:
       - ./images/cloudflare-ip/:/var/www/cloudflare-ip/
     network_mode: host
-
-volumes:
-  nextcloud:
-  postgres:
